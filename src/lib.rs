@@ -1,5 +1,6 @@
 use base64::prelude::*;
 use js_sys;
+use lazy_static::lazy_static;
 use wasm_bindgen::prelude::*;
 use web_sys::{console, FetchEvent, Response};
 
@@ -11,10 +12,12 @@ use web_sys::{console, FetchEvent, Response};
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
-static ICON: &[u8] = include_bytes!(concat!(env!("CARGO_MANIFEST_DIR"), "/src/rust-icon.png"));
+lazy_static! {
+    static ref ICON: String = BASE64_STANDARD.encode(include_bytes!(concat!(env!("CARGO_MANIFEST_DIR"), "/src/rust-icon.png")));
+}
 
-#[wasm_bindgen]
-pub async fn fetch_listener(event: &FetchEvent) -> Response {
+#[wasm_bindgen(js_name = fetch_listener)]
+pub async fn listener(event: &FetchEvent) -> Response {
     console::log_1(&JsValue::from_str("Fetch Listener..."));
 
     let now = &js_sys::Date::new_0().to_json();
@@ -31,7 +34,9 @@ pub async fn fetch_listener(event: &FetchEvent) -> Response {
         .flatten()
         .unwrap_or(john_smith);
 
-    let icon = BASE64_STANDARD.encode(ICON);
+    //let icon = BASE64_STANDARD.encode(ICON);
+
+    let icon = &*ICON;
 
     let body = format!(
         r#"
