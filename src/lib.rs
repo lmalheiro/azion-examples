@@ -18,6 +18,7 @@ lazy_static! {
 
 #[wasm_bindgen(js_name = fetch_listener)]
 pub async fn listener(event: &FetchEvent) -> Response {
+
     console::log_1(&JsValue::from_str("Fetch Listener..."));
 
     let now = &js_sys::Date::new_0().to_json();
@@ -33,8 +34,6 @@ pub async fn listener(event: &FetchEvent) -> Response {
         .ok()
         .flatten()
         .unwrap_or(john_smith);
-
-    //let icon = BASE64_STANDARD.encode(ICON);
 
     let icon = &*ICON;
 
