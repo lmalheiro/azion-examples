@@ -1,3 +1,4 @@
+use base64::prelude::*;
 use js_sys;
 use wasm_bindgen::prelude::*;
 use web_sys::{console, FetchEvent, Response};
@@ -9,6 +10,8 @@ use web_sys::{console, FetchEvent, Response};
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
+
+static ICON: &[u8] = include_bytes!(concat!(env!("CARGO_MANIFEST_DIR"), "/src/rust-icon.png"));
 
 #[wasm_bindgen]
 pub async fn fetch_listener(event: &FetchEvent) -> Response {
@@ -28,15 +31,19 @@ pub async fn fetch_listener(event: &FetchEvent) -> Response {
         .flatten()
         .unwrap_or(john_smith);
 
+    let icon = BASE64_STANDARD.encode(ICON);
+
     let body = format!(
         r#"
         <!DOCTYPE html>
         <html>
             <head>
                 <title>Hello, hello!</title>
+                <link rel="icon" href="data:;base64,{icon}">
             </head>
+
             <body>
-            <h1>Hello, world!!! How are you, {name}?</h1>
+              <h1>Hello, world!!! How are you, {name}?</h1>
               <h2>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras porta suscipit eleifend. Aenean eu elit vitae leo 
                 lacinia malesuada eget interdum neque. Proin nec maximus ante. Nam malesuada convallis est, eu interdum erat. 
@@ -59,5 +66,6 @@ pub async fn fetch_listener(event: &FetchEvent) -> Response {
     let response = Response::new_with_opt_str(Some(body)).unwrap();
 
     response.headers().set("Content-Type", "text/html").unwrap();
+    
     response
 }

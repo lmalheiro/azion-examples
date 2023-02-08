@@ -32,6 +32,7 @@ js-sys = "0.3.22"
 # allocator, so it's not enabled by default.
 wee_alloc = { version = "0.4.2", optional = true }
 wasm-bindgen-futures = "0.4.34"
+base64 = "0.21.0"
 
 # The `web-sys` crate allows you to interact with the various browser APIs,
 # like the DOM.

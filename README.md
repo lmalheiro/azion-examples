@@ -2,7 +2,7 @@
 
 ## The fetch listener
 
-On file `src/lib.rs` add code to fetch event listener. 
+On file `src/lib.rs`, add your code to the fetch event listener, which will be always named `fetch_listener` and must be a public async function. 
 
 ```rust
 
@@ -19,4 +19,4 @@ pub async fn fetch_listener(event: &FetchEvent) -> Response {
 
 Execute `npm run build`, then create and edge function in Azion using the output file `dist/worker.js`.
 
-The example is configured to compile in debug mode.
+The example is configured to compile in debug mode and non-minified.
