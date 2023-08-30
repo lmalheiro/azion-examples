@@ -1,0 +1,18 @@
+{
+  "author": "Luis Malheiro <luismalheiro@gmail.com>",
+  "name": "azion-rust-edege-function-template",
+  "version": "0.1.0",
+  "scripts": {
+    "cargo": "cargo build --target=wasm32-unknown-unknown",
+    "bindgen": "wasm-bindgen --out-dir=pkg --target=web --omit-default-module-path target/wasm32-unknown-unknown/debug/azion_rust_edge_function.wasm",
+    "build": "rimraf dist pkg && npm run cargo && npm run bindgen && webpack"
+  },
+  "devDependencies": {
+    "@wasm-tool/wasm-pack-plugin": "^1.6.0",
+    "rimraf": "^4.0.7",
+    "webpack": "^5.88.2",
+    "webpack-cli": "~5.0.1",
+    "webpack-config-dump-plugin": "^3.0.1",
+    "webpack-dev-server": "~4.11.1"
+  }
+}
