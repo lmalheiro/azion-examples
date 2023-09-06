@@ -1,17 +1,17 @@
 import init, * as WasmModule from '../pkg/azion_rust_edge_function';
 import wasmData from '../pkg/azion_rust_edge_function_bg.wasm';
 
+let wasmPromise = null;
 
-let wasmPromise = fetch(wasmData).then(response => init(response.arrayBuffer()));
-
-
-addEventListener("fetch", async (event) => {
+addEventListener("fetch", (event) => {
 
     try {
 
-        await wasmPromise;
+        if (!wasmPromise) {
+            wasmPromise = fetch(wasmData).then(response => init(response.arrayBuffer()));
+        }
 
-        let resp = await WasmModule.fetch_listener(event);
+        let resp = wasmPromise.then(() => WasmModule.fetch_listener(event)) ;
     
         event.respondWith(resp);
     
