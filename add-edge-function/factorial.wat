@@ -1,3 +1,4 @@
+
 (module
   ;; Recursive factorial function
   (func $factorial (param $n i32) (result i32)
@@ -20,3 +21,4 @@
   ;; Export the factorial function with a named index
   (export "factorial" (func $factorial))
 )
+
