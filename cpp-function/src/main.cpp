@@ -1,5 +1,3 @@
-// emcc -s ASYNCIFY -lembind hello.cpp -o hello.html
-// emcc -s ASYNCIFY -lembind hello.cpp -s SINGLE_FILE=1
 
 #include <stdio.h>
 #include <emscripten/val.h>
