@@ -4,9 +4,11 @@
 #include <stdio.h>
 #include <emscripten/val.h>
 
+
 using emscripten::val;
 
-int fetch_listener() {
+extern "C" const char* fetch_listener(val event) {
+
     // "fetch" global do JavaScript
     val fetch = val::global("fetch");
 
@@ -23,9 +25,10 @@ int fetch_listener() {
     // método "join()" do JavaScript.
     auto answer = paragraphs.call<val>("join").as<std::string>();
 
-    printf("The answer is %s\n", answer.c_str());
+    val console = val::global("console");
+    console.call<void>("log", "The answer is " + answer);
 
-    return 0;
+    return answer.c_str();
 }
 
 
